@@ -32,44 +32,13 @@ function pu_load_styles()
     wp_enqueue_style( 'prism_css', plugins_url( '/css/prism.css' , __FILE__ ) );
 }
 
-/**
-* Stop Wordpress converting quotes to pretty quotes
-*/
-function pu_remove_auto_p_in_shortcode_formatter($content) {
-    $new_content = '';
-    $pattern_full = '{(\[raw\].*?\[/raw\])}is';
-    $pattern_contents = '{\[raw\](.*?)\[/raw\]}is';
-    $pieces = preg_split($pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE);
-
-    foreach ($pieces as $piece) {
-        if (preg_match($pattern_contents, $piece, $matches)) {
-            $new_content .= $matches[1];
-        } else {
-            $new_content .= wpautop($piece);
-        }
-    }
-    return $new_content;
-}
-
-remove_filter('the_content', 'wpautop');
+remove_filter( 'the_content', 'wpautop' );
+add_filter( 'the_content', 'wpautop' , 99);
+add_filter( 'the_content', 'shortcode_unautop',100 );
 remove_filter('the_content', 'wptexturize');
 
 remove_filter('comment_text', 'wptexturize');
 remove_filter('the_excerpt', 'wptexturize');
-
-add_filter('the_content', 'pu_remove_auto_p_in_shortcode_formatter', 99);
-
-/**
-* Define the different language shortcodes
-*/
-// $language = array("html", "css", "javascript", "php");
-
-/**
-* Create the different shortcodes
-*/
-// foreach($language as $lang){
-// 	add_shortcode( $lang, 'paulund_highlight_code' );
-// }
 
 add_shortcode( 'html' , 'paulund_hightlight_html' );
 add_shortcode( 'css' , 'paulund_hightlight_css' );

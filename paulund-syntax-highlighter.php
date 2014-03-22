@@ -40,14 +40,14 @@ remove_filter('the_content', 'wptexturize');
 remove_filter('comment_text', 'wptexturize');
 remove_filter('the_excerpt', 'wptexturize');
 
-add_shortcode( 'html' , 'paulund_hightlight_html' );
+add_shortcode( 'markup' , 'paulund_hightlight_html' );
 add_shortcode( 'css' , 'paulund_hightlight_css' );
 add_shortcode( 'javascript' , 'paulund_hightlight_javascript' );
 add_shortcode( 'php' , 'paulund_hightlight_php' );
 
 function paulund_hightlight_html($atts, $content = null)
 {
-    return pu_encode_content('html', $content);
+    return pu_encode_content('markup', $content);
 }
 
 function paulund_hightlight_css($atts, $content = null)
